@@ -1,3 +1,4 @@
+"""
 class Flight:
 
     def __init__(self):
@@ -12,78 +13,42 @@ class Flight:
             502: {'arrival': 'Szeged', 'price': 7500, 'booked': False, 'guest': None},
         }
 
-    def view_available_flights(self):
+"""
 
-        print("\nAvailable flights:")
+from abc import ABC, abstractmethod
 
-        for flight_no, details in self.flight.keys():
+class Flight(ABC):
 
-            if not details['booked']:
+    def __init__(self, flight_no, arrival, price):
 
-                print(f"Flight {flight_no}: {details['arrival']} - {details['price']}")
+        self.flight_no = flight_no,
 
-    def book_flight(self, flight_no):
+        self.arrival = arrival,
 
-        self.view_available_flights()
+        self.price = price,
 
-        try:
+    def flight_type(self):
 
-            flight_no = int(input("Enter flight no: "))
+        pass
 
-            if flight_no in self.flight.keys() and not self.flight[flight_no]['booked']:
+    def __repr__(self):
 
-                guest_name = input("Enter guest name: ")
+        return f"{self.flight_type()} Járat #{self.flight_no} -> {self.arrival}, Ár: {self.price}"
 
-                self.flight[flight_no]['booked'] = True
+class NationalFlight(Flight):
 
-                self.flight[flight_no]['guest'] = guest_name
+    def flight_type(self):
 
-                print(f"\nFlight {flight_no} successfully booked for {guest_name}.")
+        return "Belföldi"
 
-            else:
+class InternationalFlight(Flight):
 
-                print("\nFlight is either not available or already booked.")
+    def flight_type(self):
 
-        except ValueError:
+        return "Nemzetközi"
 
-            print("\nInvalid flight number. Please enter a valid flight number.")
 
-    def check_flight(self, flight_no):
 
-        guest_name = input("\nEnter guest name to check booking: ")
-
-        found = False
-
-        for flight_no, details in self.flight.items():
-
-            if details['booked'] and details['guest'] == guest_name:
-
-                print(f"\n{guest_name} has booked for {flight_no}: {details['arrival']} - {details['price']}")
-
-                found = True
-
-                break
-
-        if not found:
-            print("\nNo flight booking for {guest_name}.")
-
-    def cancel_flight(self, flight_no):
-
-        guest_name = input("\nEnter guest name to cancel: ")
-
-        for flight_no, details in self.flight.items():
-
-            if details['booked'] and details['guest'] == guest_name:
-
-                self.flight[flight_no]['booked'] = False
-
-                self.flight[flight_no]['guest'] = None
-
-                print(f"\nFlight {flight_no} cancelled for {guest_name}.")
-
-                return
-
-            print("\nNo flight booking for {guest_name}.")
 
     def run(self):
 
