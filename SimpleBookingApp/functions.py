@@ -1,22 +1,75 @@
-from flight import NationalFlight, InternationalFlight
+
+from flight import NationalFlight, InternationalFlight, FlightCompany
 
 class FlightManager:
     def __init__(self):
-        self.flights = [
-            InternationalFlight(101,'Rome', 15000),
-            InternationalFlight(102, 'Catania', 25000),
-            InternationalFlight(201, 'Paris', 23500),
-            InternationalFlight(310, 'London', 35000),
-            NationalFlight(501, 'Debrecen', 5000),
-            NationalFlight( 502, 'Szeged', 7500)
-        ]
+        #Légitársaság létrehozása:
+        self.wizzair = FlightCompany("Wizzair")
+        self.ryanair = FlightCompany("Ryanair")
+        self.britishair = FlightCompany("BritishAir")
+        self.malev = FlightCompany("Malév")
+
+        #Járat a WizzAir-hez
+        self.wizzair.add_flight(InternationalFlight(101, "Rome", 15000, self.wizzair))
+        self.wizzair.add_flight(InternationalFlight(102, "Catania", 35000, self.wizzair))
+        self.wizzair.add_flight(InternationalFlight(103, "Madrid", 40000, self.wizzair))
+
+        #Járat a Ryanair-hez
+        self.ryanair.add_flight(InternationalFlight(201, "Paris", 37000, self.ryanair))
+        self.ryanair.add_flight(InternationalFlight(202, "Barcelona", 40000, self.ryanair))
+        self.ryanair.add_flight(InternationalFlight(203, "Berlin", 40000, self.ryanair))
+
+        #Járat a BritishAir-hez
+        self.britishair.add_flight(InternationalFlight(301, "London", 50000, self.britishair))
+        self.britishair.add_flight(InternationalFlight(302, "Leeds", 70000, self.britishair))
+
+        #Járat a Malév-hez
+        self.malev.add_flight(NationalFlight(506, "Debrecen", 30000, self.malev))
+        self.malev.add_flight(NationalFlight(507, "Szeged", 40000, self.malev))
+
+        #Járatok tárolása listában
+        self.companies = [self.wizzair, self.ryanair, self.britishair, self.malev]
+
         self.bookings = {} #járatszám mappelése a névhez
+
+    def get_all_flights(self):
+        all_flights = []
+        for company in self.companies:
+            all_flights.extend(company.flights)
+        return all_flights
 
     def view_available_flights(self):
         print("\nElérhető járatok")
-        for flight in self.flights:
+        for flight in self.get_all_flights():
             if flight.flight_no not in self.bookings:
                 print(f"Járat adatai: {flight}")
+
+    # járat szerinti megjelenítés
+    def get_company_by_name(self, name):
+        for company in self.companies:
+            if company.name.lower() == name.lower():
+                return company
+        return None
+
+    def view_filghts_by_company(self):
+        print("\nElérhető légitársaságok: ")
+        for company in self.companies:
+            print(f" - {company.name}")
+
+        company_name = input("Adja meg a légitársaság nevét: ")
+        company = self.get_company_by_name(company_name)
+
+        if company:
+            flights = company.flights
+            print(f"\n{company.name} járatai: ")
+            if not flights:
+                print("Nincsennek elérhető járatok ennél a légitársaságnál")
+            else:
+                for flight in flights:
+                    if flight.flight_no not in self.bookings:
+                        print(f" {flight}")
+        else:
+            print("Nincs ilyen nevű légitársaság")
 
 #járat foglalása
     def book_flight(self):
@@ -36,7 +89,8 @@ class FlightManager:
         except ValueError:
             print("\nHibás járatszám. Adjon meg egy helyes járatszámot")
 
-#járat ellenőrzése
+
+#foglalás ellenőrzése
     def check_flight(self):
         guest_name = input("\nAdja meg az utas nevét az ellenőrzéshez: ")
         for flight_no, name in self.bookings.items():
@@ -46,18 +100,20 @@ class FlightManager:
                 return
         print("Nincs foglalás ezen a néven.")
 
-#járat törllése
+
+#foglalás törlése
     def cancel_flight(self):
         guest_name = input("\nAdja meg a nevét a törléshez: ")
         for flight_no, name in list(self.bookings.items()):
             if name == guest_name:
                 del self.bookings[flight_no]
-                print(f"A(z) {flight_no} járat törölve lett {guest_name} részére.")
+
+                print(f"A(z) {flight_no} járat törölve lett {guest_name} nevéről.")
                 return
         print("Nincs foglalás ezen a néven.")
 
     def get_flight_by_number(self, flight_no):
-        for flight in self.flights:
+        for flight in self.get_all_flights():
             if flight.flight_no == flight_no:
                 return flight
         return None
