@@ -34,8 +34,8 @@ class InternationalFlight(Flight):
 
 # tárolja a légitársaságokat és azok nevét
 class FlightCompany:
-    def __init__(self, nev):
-        self.nev = nev
+    def __init__(self, name):
+        self.nev = name
         self.flights = []
 
     def add_flight(self, flight):
