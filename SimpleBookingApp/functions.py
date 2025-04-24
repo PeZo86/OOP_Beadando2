@@ -1,3 +1,4 @@
+
 from flight import NationalFlight, InternationalFlight, FlightCompany
 
 class FlightManager:
@@ -88,6 +89,7 @@ class FlightManager:
         except ValueError:
             print("\nHibás járatszám. Adjon meg egy helyes járatszámot")
 
+
 #foglalás ellenőrzése
     def check_flight(self):
         guest_name = input("\nAdja meg az utas nevét az ellenőrzéshez: ")
@@ -98,12 +100,14 @@ class FlightManager:
                 return
         print("Nincs foglalás ezen a néven.")
 
+
 #foglalás törlése
     def cancel_flight(self):
         guest_name = input("\nAdja meg a nevét a törléshez: ")
         for flight_no, name in list(self.bookings.items()):
             if name == guest_name:
                 del self.bookings[flight_no]
+
                 print(f"A(z) {flight_no} járat törölve lett {guest_name} nevéről.")
                 return
         print("Nincs foglalás ezen a néven.")

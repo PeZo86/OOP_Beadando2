@@ -8,8 +8,10 @@ class Flight(ABC):
         self.price = price
         self.company = company
 
+
     def flight_type(self):
         pass
+
 
     def flight_company(self):
         return self.company.name if self.company else "N/A"
@@ -32,12 +34,11 @@ class InternationalFlight(Flight):
 
 # tárolja a légitársaságokat és azok nevét
 class FlightCompany:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, nev):
+        self.nev = nev
         self.flights = []
 
     def add_flight(self, flight):
-        flight.company = self
         self.flights.append(flight)
 
     def total_flight(self):

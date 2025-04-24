@@ -4,6 +4,7 @@ def main():
     flight_manager = FlightManager()
 
     while True:
+
         print("\n------Üdvözlöm a Simple Booking App-ban--------")
         print("1. Elérhető járatok megtekintése")
         print("2. Légitársaság járatainak megtekintése")
@@ -32,6 +33,7 @@ def main():
 
         except ValueError:
             print("\nÉrvénytelen szám. Kérem válasszon 1 és 5 között egy számot")
+
 
 if __name__ == '__main__':
     main()
