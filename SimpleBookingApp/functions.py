@@ -30,7 +30,7 @@ class FlightManager:
         #Járatok tárolása listában
         self.companies = [self.wizzair, self.ryanair, self.britishair, self.malev]
 
-        self.bookings = {} #járatszám mappelése a névhez
+        self.bookings = {}
 
     def get_all_flights(self):
         all_flights = []
