@@ -24,8 +24,8 @@ class FlightManager:
         self.britishair.add_flight(InternationalFlight(302, "Leeds", 70000, self.britishair))
 
         #Járat a Malév-hez
-        self.malev.add_flight(NationalFlight(506, "Debrecen", 30000, self.malev))
-        self.malev.add_flight(NationalFlight(507, "Szeged", 40000, self.malev))
+        self.malev.add_flight(NationalFlight(506, "Debrecen", 3000, self.malev))
+        self.malev.add_flight(NationalFlight(507, "Szeged", 4000, self.malev))
 
         #Járatok tárolása listában
         self.companies = [self.wizzair, self.ryanair, self.britishair, self.malev]
